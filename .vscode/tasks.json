@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Warehouse backend",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"backend/index.js"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Warehouse frontend web (localhost)",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"set \"EXPO_ROUTER_DISABLE_RN_NAVIGATION_CHECK=true\"&&node_modules\\.bin\\expo.cmd start --web --localhost"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		}
+	]
+}

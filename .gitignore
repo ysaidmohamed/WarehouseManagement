@@ -38,6 +38,10 @@ yarn-error.*
 
 example
 
+expo-env.d.ts
+
+/screenshots
+
 # generated native folders
 /ios
 /android

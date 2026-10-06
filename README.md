@@ -1,56 +1,76 @@
-# Welcome to your Expo app 👋
+# WarehouseManagement
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+ Application mobile de gestion de stock pour un entrepot fictif.
 
-## Get started
+## Fonctionnalités
 
-1. Install dependencies
+-   Consulter la liste des produits disponibles.
+-   Ajouter ou supprimer des produits.
+-   Modifier les données des produits existants.
+-   Rechercher des produits spécifiques.
+-   Interface utilisateur fluide,affichage des produits en liste ou en cartes.
 
-   ```bash
-   npm install
-   ```
+## Stack Technique
 
-2. Start the app
+-   **Frontend :** React Native (Expo), TypeScript, React Navigation
+-   **Backend :** Node.js, Express
+-  **Gestion d'états** : useState
 
-   ```bash
-   npx expo start
-   ```
+## Installation
 
-In the output, you'll find options to open the app in a
+### 1. Base de données
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Le projet utilise une base de données **MySQL** (via WampServer, XAMPP ou Docker).
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1.  Créez une base de données nommée `dbwarehouse`.
+2.  Importez le fichier `dbwarehouse.sql` (situé dans le dossier racine ) pour créer automatiquement les tables nécessaires.
+3.  Modifiez le fichier `.env` (ou le créer si nécessaire)pour définir les variables de connexion à la base de données :
+DB_HOST
+DB_USER
+DB_PASSWORD
+DB_NAME
 
-## Get a fresh project
+### 2. Lancement des serveurs
 
-When you're ready, run:
+Ouvrez votre terminal et exécutez les commandes suivantes à la racine du projet :
 
-```bash
-npm run reset-project
-```
+> git clone
+> [https://github.com/ysaidmohamed/WarehouseManagement.git](https://github.com/ysaidmohamed/WarehouseManagement.git)
+> 
+> 
+> npm install
+> 
+> npx expo start
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Lancez le backend avec la commande suivante à la racine du projet :
 
-### Other setup steps
+>node backend/index.js
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 3 . Choix techniques
 
-## Learn more
+### React Native et Expo
 
-To learn more about developing your project with Expo, look at the following resources:
+L'interface est dévelopée avec React Native et Expo afin de couvrir tous les supports d'appareils mobiles Android et iOS.Les zones de texte et de données s'adaptent à la taille de chaque appareil.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### TypeScript et JavaScript
 
-## Join the community
+TypeScript est utilisé pour les différentes pages de l'application afin de pouvoir suivre des erreurs que JavaScript n'identifierait pas.
+Le backend reste sur JavaScript.
 
-Join our community of developers creating universal apps.
+### React Navigation
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Pour une petite application utilisant une navigation en pile,React Navigation est idéal pour gérer l'affichage rapide et simple de fenêtres secondaires.
+
+### Backend
+
+Le serveur utilise Node.js et Express indépendament de l'interface.Des requêtes sont utilisées pour demander les données que l'on souhaite sans accéder directement à la base de données.
+
+MySQL est utilisé ici pour une base de données contenant 2 uniques tables avec la clé catégorie référencée dans la table produit.Le système de concepteur intuitif permet la réalisation rapide de la relation nécessaire entre clé référencée et clé étrangère.Le backend transmet les résultats au format JSON.
+
+### Gestion des états
+
+useState est utilisé pour gérer l'état temporaire des formulaires et les listes afin de sauvegarder des données que l'on souhaite réutiliser dans la page sans forcément persister en base de données (liste des produits,requête dans la barre de recherche,liste des catégories,messages d'erreurs,sauvegardes).
+
+
+
+
