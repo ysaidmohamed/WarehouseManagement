@@ -71,6 +71,28 @@ MySQL est utilisé ici pour une base de données contenant 2 uniques tables avec
 
 useState est utilisé pour gérer l'état temporaire des formulaires et les listes afin de sauvegarder des données que l'on souhaite réutiliser dans la page sans forcément persister en base de données (liste des produits,requête dans la barre de recherche,liste des catégories,messages d'erreurs,sauvegardes).
 
+### 4. Captures d'écran
+
+Page d'accueil (affichage liste) :
+
+<img width="161" height="359" alt="c1" src="https://github.com/user-attachments/assets/aa297f7c-cf32-4156-b09c-e8f840e3b34c" />
+
+Page d'accueil (affichage cartes) :
+
+<img width="157" height="347" alt="c2" src="https://github.com/user-attachments/assets/fcbc6a66-9101-4e7d-a1e7-37f81f394918" />
+
+Ajout d'un produit :
+
+<img width="153" height="347" alt="c3" src="https://github.com/user-attachments/assets/820348e4-33d0-4b69-9465-20f5e1653707" />
+
+Modification d'un produit :
+
+<img width="154" height="344" alt="c4" src="https://github.com/user-attachments/assets/5e9cf04c-0800-4845-abbc-fe6e97694c92" />
+
+
+
+
+
 
 
 
