@@ -71,6 +71,11 @@ MySQL est utilisé ici pour une base de données contenant 2 uniques tables avec
 
 useState est utilisé pour gérer l'état temporaire des formulaires et les listes afin de sauvegarder des données que l'on souhaite réutiliser dans la page sans forcément persister en base de données (liste des produits,requête dans la barre de recherche,liste des catégories,messages d'erreurs,sauvegardes).
 
+### Composants réutisables 
+
+2 composants sont réutilisés ici : le composant du formulaire utilisé pour l'ajout et la modification d'un produit ainsi que le composant de la modification de quantité d'un produit utilisé dans 2 formulaires.
+
+
 ### 4. Captures d'écran
 
 Page d'accueil (affichage liste) :
