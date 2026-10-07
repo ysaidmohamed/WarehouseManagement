@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, ScrollView, TextInput, TouchableOpacity } from 'react-native';
-import { Host, Picker } from '@expo/ui';
 import { useNavigation } from '@react-navigation/native';
+import { ProductForm, ProductCategory, ProductFormValues } from '../components/ProductForm';
 
-type Category = {
-  id: number;
-  nom: string;
-};
-
-const defaultProduct = {
+const defaultProduct: ProductFormValues = {
   nom: '',
   reference: '',
   categorieId: 0,
@@ -17,25 +11,16 @@ const defaultProduct = {
 };
 
 export default function AddProductScreen() {
-    const [product, setProduct] = useState<any>(defaultProduct);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [product, setProduct] = useState<ProductFormValues>(defaultProduct);
+    const [categories, setCategories] = useState<ProductCategory[]>([]);
     const [loadError, setLoadError] = useState<string | null>(null);
     const [saveError, setSaveError] = useState<string | null>(null);
     const [saving, setSaving] = useState(false);
     const navigation = useNavigation();
 
-    // Met à jour le champ du produit en fonction de l'entrée de l'utilisateur
-    const handleChange = (field: string, value: string | number) => {
+    const handleChange = (changes: Partial<ProductFormValues>) => {
         setSaveError(null);
-        setProduct((prev: any) => ({ ...prev, [field]: value }));
-    };
-
-    // Ajoute la valeur delta à la quantité du produit (minimum 0)
-    const adjustQuantity = (delta: number) => {
-        setProduct((prev: any) => {
-        const currentQty = Number(prev.qteInit) || 0;
-        return { ...prev, qteInit: Math.max(0, currentQty + delta) };
-        });
+        setProduct((previous) => ({ ...previous, ...changes }));
     };
 
     // Enregistrement du produit
@@ -101,162 +86,15 @@ export default function AddProductScreen() {
       }, []);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.label}>Nom du produit :</Text>
-          <TextInput
-            style={styles.input}
-            value={product.nom}
-            onChangeText={(text) => handleChange('nom', text)}
-          />
-    
-          <Text style={styles.label}>Référence :</Text>
-          <TextInput
-            style={styles.input}
-            value={product.reference}
-            onChangeText={(text) => handleChange('reference', text)}
-          />
-    
-          <Text style={styles.label}>Catégorie :</Text>
-          {loadError && <Text style={styles.errorText}>{loadError}</Text>}
-          <View style={styles.pickerContainer}>
-            <Host matchContents={{ vertical: true }} style={styles.pickerHost}>
-              <Picker
-                selectedValue={product.categorieId}
-                onValueChange={(categorieId: number) => handleChange('categorieId', categorieId)}
-              >
-                {categories.map((category) => (
-                  <Picker.Item key={category.id} label={category.nom} value={category.id} />
-                ))}
-              </Picker>
-            </Host>
-          </View>
-          {saveError && <Text style={styles.errorText}>{saveError}</Text>}
-    
-          <Text style={styles.label}>Quantité initiale :</Text>
-          <View style={styles.quantityContainer}>
-            <TouchableOpacity style={styles.btnQuantity} onPress={() => adjustQuantity(-1)}>
-              <Text style={styles.btnText}>-</Text>
-            </TouchableOpacity>
-    
-            <TextInput
-              style={[styles.input, styles.quantityInput]}
-              value={String(product.qteInit)}
-              keyboardType="numeric"
-              onChangeText={(text) => handleChange('qteInit', parseInt(text, 10) || 0)}
-            />
-    
-            <TouchableOpacity style={styles.btnQuantity} onPress={() => adjustQuantity(1)}>
-              <Text style={styles.btnText}>+</Text>
-            </TouchableOpacity>
-          </View>
-    
-          <Text style={styles.label}>Seuil :</Text>
-          <TextInput
-            style={styles.input}
-            value={String(product.seuil)}
-            keyboardType="numeric"
-            onChangeText={(text) => handleChange('seuil', parseInt(text, 10) || 0)}
-          />
-          <TouchableOpacity 
-            style={[styles.saveButton, saving && styles.saveButtonDisabled]} 
-            onPress={handleSave}
-            disabled={saving}
-            >
-            {saving ? (
-                <ActivityIndicator color="#fff" />
-            ) : (
-                <Text style={styles.saveButtonText}>Ajouter</Text>
-            )}
-          </TouchableOpacity>
-        </ScrollView>
+      <ProductForm
+        product={product}
+        categories={categories}
+        saving={saving}
+        submitLabel="Ajouter"
+        onChange={handleChange}
+        onSubmit={handleSave}
+        loadError={loadError}
+        formError={saveError}
+      />
     );
 }
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  errorText: {
-    fontSize: 18,
-    color: 'red',
-    marginBottom: 12,
-  },
-  container: {
-    padding: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  value: {
-    fontSize: 16,
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-    marginBottom: 15,
-  },
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    backgroundColor: '#fff',
-    marginBottom: 15,
-  },
-  pickerHost: {
-    width: '100%',
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  btnQuantity: {
-    backgroundColor: '#2563eb',
-    width: 45,
-    height: 45,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  btnText: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  quantityInput: {
-    flex: 1,
-    textAlign: 'center',
-    marginHorizontal: 10,
-    marginBottom: 0,
-  },
-  saveButton: {
-    backgroundColor: '#16a34a',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 30,
-  },
-  saveButtonDisabled: {
-    backgroundColor: '#86efac',
-    },
-    saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-})
